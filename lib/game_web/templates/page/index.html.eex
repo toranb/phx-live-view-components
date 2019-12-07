@@ -10,7 +10,7 @@
           <h1>Match Game!</h1>
           <h2>Want to play?</h2>
           <a href="/new" class="icon-padding action-button animate margin-right green">New Game</a>
-          <a href="https://github.com/toranb/elixir-workshop" class="icon-padding action-button animate purple">Github</a>
+          <a href="https://github.com/toranb/phx-live-view-components" class="icon-padding action-button animate purple">Github</a>
         </div>
       </div>
 
