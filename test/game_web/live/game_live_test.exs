@@ -187,6 +187,7 @@ defmodule GameWeb.GameLiveTest do
   end
 
   defp flip_card(view, card_id) do
-    render_click(view, :flip, %{"flip-id" => card_id})
+    send(view.pid, {:flip, card_id})
+    render(view)
   end
 end

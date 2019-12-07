@@ -1,6 +1,8 @@
 defmodule GameWeb.GameLive do
   use Phoenix.LiveView
 
+  alias GameWeb.Live.Component.Card
+
   def render(assigns) do
     ~L"""
       <div id="card-game" class="card-game">
@@ -14,10 +16,7 @@ defmodule GameWeb.GameLive do
           <div class="game">
             <div class="cards">
               <%= for card <- rows(assigns) do %>
-              <div class="card <%= clazz(card) %>" phx-click="flip" phx-value-flip-id=<%= card.id %>>
-                <div class="back"></div>
-                <div class="front" style="background-image: url(<%= card.image %>)"></div>
-              </div>
+                <%= live_component(@socket, Card, id: card.id, card: card) %>
               <% end %>
             </div>
 
@@ -64,7 +63,7 @@ defmodule GameWeb.GameLive do
     end
   end
 
-  def handle_event("flip", %{"flip-id" => flip_id}, socket) do
+  def handle_info({:flip, flip_id}, socket) do
     %{:game_name => game_name} = socket.assigns
 
     case Game.Session.session_pid(game_name) do
@@ -122,18 +121,5 @@ defmodule GameWeb.GameLive do
     assign(socket,
       error: "an error occurred"
     )
-  end
-
-  def clazz(%{flipped: flipped, paired: paired}) do
-    case paired == true do
-      true ->
-        "found"
-
-      false ->
-        case flipped == true do
-          true -> "flipped"
-          false -> ""
-        end
-    end
   end
 end
